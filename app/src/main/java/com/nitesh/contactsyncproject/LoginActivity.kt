@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 
@@ -18,9 +20,13 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 const val RC_SIGN_IN=123
 class LoginActivity : AppCompatActivity() {
+    lateinit var sign_in_button:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+
+
         // Configure sign-in to request the user's ID, email address, and basic
 // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
 
@@ -33,8 +39,9 @@ class LoginActivity : AppCompatActivity() {
 
         // Build a GoogleSignInClient with the options specified by gso.
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        sign_in_button=findViewById(R.id.sign_in_button)
         sign_in_button.visibility= View.VISIBLE
-        sign_in_button.setSize(SignInButton.SIZE_STANDARD)
+
         sign_in_button.setOnClickListener {
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -47,9 +54,16 @@ class LoginActivity : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            val task =
+            val result =
                 GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
+            handleSignInResult(result)
+            if(result.isSuccessful()){
+                val intent=Intent(this@LoginActivity,ProfileActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                Toast.makeText(this@LoginActivity,"Login Activity",Toast.LENGTH_SHORT).show()
+            }
         }
     }
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
