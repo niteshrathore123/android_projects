@@ -43,7 +43,7 @@ class ProfileActivity : AppCompatActivity() {
 
         gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
-        //googleApiClient=GoogleApiClient.Builder(this).enableAutoManage(this,this)
+        // googleApiClient=GoogleApiClient.Builder(this).enableAutoManage(this,this)
         //   .addApi(Auth.GOOGLE_SIGN_IN_API,gso).build()
 
         btnLogout.setOnClickListener {
